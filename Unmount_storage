@@ -1,0 +1,13 @@
+#! /usr/bin/env python
+import subprocess
+
+# removes the Desktop shortcut that was created
+subprocess.call("sudo rm -r /home/traveler/Desktop/Storage", shell=True)
+
+# unmounts the mounted file system that was mounted at '/mnt/storage'
+subprocess.call("sudo umount /mnt/storage", shell=True)
+
+# closes the luks container and re-encrypts the conatiner that is called 'storage'
+subprocess.call("sudo cryptsetup luksClose storage", shell=True)
+
+raw_input("Device unmounted")
