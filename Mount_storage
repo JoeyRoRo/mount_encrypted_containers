@@ -1,0 +1,37 @@
+#! /usr/bin/env python
+import subprocess, time, sys
+
+# to setup a encrypted partition using LUKS use the following command... 
+# "sudo cryptsetup -y luksFormat /dev/" followed by your partion to encrpyt.
+# then "sudo mkfs.ext4 
+
+# prompt for deivce to decrypt
+while True:
+	list = subprocess.call("sudo lsblk", shell=True)
+	device = raw_input ("Which device do you want to decrpyt?")
+	if not device == '':
+		break
+
+# Decrypt the encrypted container
+subprocess.call("sudo cryptsetup luksOpen /dev/"+device+" storage", shell=True)
+# Prints a wait timer
+timer = 3
+sys.stdout.write('Mounting storage..')
+while timer > 0:
+	sys.stdout.write('.')
+	sys.stdout.flush()
+	time.sleep(.5)
+	timer -=1
+print('')
+
+# Mounts the encrypted container
+if not os.path.isfile('/mnt/storage'): subprocess.call('sudo mkdir /mnt/storage', shell=True)
+subprocess.call("sudo mount -t ext4 /dev/mapper/storage /mnt/storage", shell=True)
+
+# displays % used of the filesystem
+subprocess.call("sudo df /dev/mapper/storage", shell=True)
+
+# creates a shortcut on the Desktop
+subprocess.call("sudo ln -s /mnt/storage /home/traveler/Desktop/Storage", shell=True)
+
+raw_input("\nDevice mounted")
