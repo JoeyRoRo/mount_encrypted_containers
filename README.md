@@ -1,4 +1,3 @@
 # mount_encrypted_containers
-This script will mount dmcrypt conatiners in linux
+These scripts will mount and unmount dmcrypt conatiners in linux
 
-yea yea
